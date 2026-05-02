@@ -1,194 +1,144 @@
 # TaskFlow — Team Task Manager
 
-A full-stack collaborative task management application built with the **MERN stack** (MongoDB, Express.js, React, Node.js). Features role-based access control (Admin/Member), project management, task assignment, and a dashboard with overdue tracking.
+A full-stack collaborative task management application built with the MERN stack. Enables teams to create projects, assign tasks, and track progress with role-based access control.
 
-![Tech Stack](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![Node](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+**Live Demo:** [task-manager-production-0422.up.railway.app](https://task-manager-production-0422.up.railway.app)
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication
-- User registration & login with JWT
-- Role-based access control (Admin / Member)
-- Protected API routes
-
-### 📁 Project Management
-- Create, edit, and delete projects (Admin)
-- Add/remove team members to projects
-- View projects you belong to
-
-### ✅ Task Management
-- Create tasks within projects
-- Assign tasks to team members
-- Set priority (Low / Medium / High)
-- Set due dates with overdue detection
-- Update status: Pending → In Progress → Completed
-- Filter tasks by status and project
-
-### 📊 Dashboard
-- Total, Pending, In Progress, Completed, Overdue task counts
-- Recent tasks overview
-- Role-specific data visibility
-
-### 👥 Role-Based Access
-
-| Action | Admin | Member |
-|--------|:-----:|:------:|
-| Create/delete projects | ✅ | ❌ |
-| Manage team members | ✅ | ❌ |
-| Create tasks | ✅ | ✅ |
-| Assign tasks to others | ✅ | ❌ |
-| Update own task status | ✅ | ✅ |
-| Delete tasks | ✅ | ❌ |
-| View dashboard | ✅ | ✅ |
+- **Authentication** — Secure JWT-based signup/login with role selection (Admin/Member)
+- **Project Management** — Create, update, and delete projects with team member management
+- **Task Tracking** — Full task lifecycle with status (Pending → In Progress → Completed), priority levels (Low/Medium/High), due dates, and overdue detection
+- **Role-Based Access Control** — Admins manage projects and assign tasks; Members update their own task status
+- **Dashboard** — Real-time overview with task statistics, overdue counts, and recent activity
+- **Responsive Design** — Works across desktop and mobile devices
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
+| Layer | Technologies |
+|-------|-------------|
 | Frontend | React 19, Vite, React Router, Axios |
-| Backend | Node.js, Express.js 5 |
+| Backend | Node.js, Express 5 |
 | Database | MongoDB Atlas (Mongoose ODM) |
-| Auth | JWT (JSON Web Tokens), bcryptjs |
-| Styling | Vanilla CSS (Dark theme, Glassmorphism) |
+| Authentication | JWT, bcryptjs |
+| Deployment | Railway |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 task-manager/
 ├── backend/
-│   ├── config/db.js           # MongoDB connection
-│   ├── controllers/
-│   │   ├── authController.js  # Register, Login, Profile
-│   │   ├── projectController.js # Project CRUD + members
-│   │   └── taskController.js  # Task CRUD + dashboard stats
-│   ├── middleware/
-│   │   └── authMiddleware.js  # JWT protect + adminOnly
-│   ├── models/
-│   │   ├── User.js            # User schema (name, email, password, role)
-│   │   ├── Project.js         # Project schema (name, members)
-│   │   └── Task.js            # Task schema (title, status, priority, dueDate)
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── projectRoutes.js
-│   │   └── taskRoutes.js
-│   ├── .env.example
-│   ├── package.json
-│   └── server.js              # Express entry point
+│   ├── config/          # Database configuration
+│   ├── controllers/     # Route handlers (auth, projects, tasks)
+│   ├── middleware/       # JWT authentication & role guards
+│   ├── models/          # Mongoose schemas (User, Project, Task)
+│   ├── routes/          # API route definitions
+│   └── server.js        # Express application entry point
 │
-└── frontend/
-    ├── src/
-    │   ├── api/axios.js       # Axios instance with JWT interceptor
-    │   ├── components/        # Navbar, Sidebar, TaskCard, TaskForm, etc.
-    │   ├── context/AuthContext.jsx  # Auth state management
-    │   ├── pages/             # Login, Register, Dashboard, Projects, Tasks
-    │   ├── App.jsx            # Routes & layout
-    │   ├── main.jsx           # Entry point
-    │   └── index.css          # Design system
-    ├── index.html
-    ├── vite.config.js
-    └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── api/         # Axios instance with JWT interceptor
+│   │   ├── components/  # Reusable UI components
+│   │   ├── context/     # Authentication state management
+│   │   └── pages/       # Application views
+│   └── index.html
+│
+└── package.json         # Root scripts for build & deployment
 ```
 
 ---
 
-## 🚀 Getting Started
+## API Endpoints
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Authenticate user |
+| GET | `/api/auth/profile` | Get current user profile |
+
+### Projects
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/projects` | Create project (Admin) |
+| GET | `/api/projects` | List all projects |
+| PUT | `/api/projects/:id` | Update project (Admin) |
+| DELETE | `/api/projects/:id` | Delete project (Admin) |
+| POST | `/api/projects/:id/members` | Add team member (Admin) |
+
+### Tasks
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/tasks` | Create task |
+| GET | `/api/tasks` | List tasks (with filters) |
+| GET | `/api/tasks/dashboard` | Dashboard statistics |
+| PUT | `/api/tasks/:id` | Update task |
+| DELETE | `/api/tasks/:id` | Delete task (Admin) |
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB Atlas account (or local MongoDB)
-- npm
+- Node.js 20+
+- MongoDB Atlas account
 
-### 1. Clone the Repository
+### Installation
+
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/AnkitSoni001/task-manager.git
 cd task-manager
 ```
 
-### 2. Backend Setup
+**Backend:**
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file (see `.env.example`):
-```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/taskmanager?retryWrites=true&w=majority
+Create `backend/.env` using the template in `.env.example`:
+```
+MONGO_URI=<your_mongodb_connection_string>
 PORT=5000
-JWT_SECRET=your_secret_key_here
+JWT_SECRET=<your_secret_key>
 NODE_ENV=development
 ```
 
-Start the backend:
-```bash
-npm run dev
-```
-
-### 3. Frontend Setup
+**Frontend:**
 ```bash
 cd frontend
 npm install --legacy-peer-deps
-npm run dev
 ```
 
-### 4. Open the App
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000
+### Running Locally
+
+```bash
+# Terminal 1 — Backend
+cd backend && npm run dev
+
+# Terminal 2 — Frontend
+cd frontend && npm run dev
+```
+
+Open `http://localhost:5173` in your browser.
 
 ---
 
-## 📡 API Endpoints
+## Deployment
 
-### Auth
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/auth/register` | Public | Register new user |
-| POST | `/api/auth/login` | Public | Login user |
-| GET | `/api/auth/profile` | Private | Get user profile |
-| GET | `/api/auth/users` | Private | List all users |
+Deployed on [Railway](https://railway.app) as a single service. The backend serves the React production build in `NODE_ENV=production`.
 
-### Projects
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/projects` | Admin | Create project |
-| GET | `/api/projects` | Private | List projects |
-| GET | `/api/projects/:id` | Private | Get project details |
-| PUT | `/api/projects/:id` | Admin | Update project |
-| DELETE | `/api/projects/:id` | Admin | Delete project + tasks |
-| POST | `/api/projects/:id/members` | Admin | Add member |
-| DELETE | `/api/projects/:id/members/:userId` | Admin | Remove member |
-
-### Tasks
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/tasks` | Private | Create task |
-| GET | `/api/tasks` | Private | List tasks (with filters) |
-| GET | `/api/tasks/dashboard` | Private | Dashboard statistics |
-| GET | `/api/tasks/:id` | Private | Get single task |
-| PUT | `/api/tasks/:id` | Private | Update task |
-| DELETE | `/api/tasks/:id` | Admin | Delete task |
+**Environment variables required:**
+`MONGO_URI`, `JWT_SECRET`, `NODE_ENV`, `PORT`
 
 ---
 
-## 🚢 Deployment (Railway)
-
-1. Push code to GitHub
-2. Create a Railway project at [railway.app](https://railway.app)
-3. Add backend service from your repo (root: `backend/`)
-4. Set environment variables in Railway: `MONGO_URI`, `JWT_SECRET`, `NODE_ENV=production`, `PORT`
-5. For frontend: build locally (`npm run build` in frontend/) and let backend serve it, OR deploy as separate service
-6. Ensure MongoDB Atlas IP whitelist includes `0.0.0.0/0`
-
----
-
-## 📝 License
+## License
 
 MIT
