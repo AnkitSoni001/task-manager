@@ -15,6 +15,18 @@ A full-stack collaborative task management application built with the MERN stack
 - **Dashboard** — Real-time overview with task statistics, overdue counts, and recent activity
 - **Responsive Design** — Works across desktop and mobile devices
 
+### Role-Based Access
+
+| Action | Admin | Member |
+|--------|:-----:|:------:|
+| Create/delete projects | ✅ | ❌ |
+| Manage team members | ✅ | ❌ |
+| Create tasks | ✅ | ✅ |
+| Assign tasks to others | ✅ | ❌ |
+| Update own task status | ✅ | ✅ |
+| Delete tasks | ✅ | ❌ |
+| View dashboard | ✅ | ✅ |
+
 ---
 
 ## Tech Stack
@@ -127,15 +139,6 @@ cd frontend && npm run dev
 ```
 
 Open `http://localhost:5173` in your browser.
-
----
-
-## Deployment
-
-Deployed on [Railway](https://railway.app) as a single service. The backend serves the React production build in `NODE_ENV=production`.
-
-**Environment variables required:**
-`MONGO_URI`, `JWT_SECRET`, `NODE_ENV`, `PORT`
 
 ---
 
