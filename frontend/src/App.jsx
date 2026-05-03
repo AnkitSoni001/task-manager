@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import useHeartbeat from "./hooks/useHeartbeat";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -10,10 +11,16 @@ import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import TasksPage from "./pages/TasksPage";
+import ProfilePage from "./pages/ProfilePage";
+import TeamPage from "./pages/TeamPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Send heartbeat every 45 seconds while logged in
+  useHeartbeat(user, 45000);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
@@ -31,6 +38,9 @@ function App() {
             <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
             <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetailPage /></ProtectedRoute>} />
             <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/team" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
+            <Route path="/user/:id" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
           </Routes>
         </main>
