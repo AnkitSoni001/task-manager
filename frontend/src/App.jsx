@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
@@ -12,12 +13,16 @@ import TasksPage from "./pages/TasksPage";
 
 function App() {
   const { user } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
     <div className="app">
-      {user && <Navbar />}
+      {user && <Navbar onMenuToggle={toggleSidebar} />}
       <div className="app-body">
-        {user && <Sidebar />}
+        {user && <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />}
         <main className="main-content">
           <Routes>
             <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ onMenuToggle }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -12,11 +12,23 @@ const Navbar = () => {
 
   return (
     <nav className="navbar" id="main-navbar">
-      <div className="navbar-brand">
-        <Link to="/dashboard">
-          <span className="navbar-logo">📋</span>
-          <span className="navbar-title">TaskFlow</span>
-        </Link>
+      <div className="navbar-left">
+        <button
+          className="hamburger-btn"
+          onClick={onMenuToggle}
+          aria-label="Toggle navigation menu"
+          id="hamburger-toggle"
+        >
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
+        <div className="navbar-brand">
+          <Link to="/dashboard">
+            <span className="navbar-logo">📋</span>
+            <span className="navbar-title">TaskFlow</span>
+          </Link>
+        </div>
       </div>
       {user && (
         <div className="navbar-right">
